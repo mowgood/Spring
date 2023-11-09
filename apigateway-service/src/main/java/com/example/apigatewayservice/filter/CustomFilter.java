@@ -20,7 +20,7 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
         // Custom Pre Filter
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            ServerHttpResponse response = (ServerHttpResponse) exchange.getResponse();
+            ServerHttpResponse response = exchange.getResponse();
 
             log.info("Custom PRE filter: request id -> {}", request.getId());
 
