@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UserCreateResponseDto {
+public class UserCreateResponse {
 
     private Long savedId;
 
     @Builder
-    public UserCreateResponseDto(Long savedId) {
+    public UserCreateResponse(Long savedId) {
         this.savedId = savedId;
     }
 }

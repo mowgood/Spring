@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UserCreateRequestDto {
+public class UserCreateRequest {
 
     @NotBlank(message = "아이디를 입력하세요")
     private String userId;
@@ -22,7 +22,7 @@ public class UserCreateRequestDto {
     private RoleType roleType;
 
     @Builder
-    public UserCreateRequestDto(String userId, String password, String name, RoleType roleType) {
+    public UserCreateRequest(String userId, String password, String name, RoleType roleType) {
         this.userId = userId;
         this.password = password;
         this.name = name;
