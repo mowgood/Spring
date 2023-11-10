@@ -3,23 +3,26 @@ package com.example.userservice.controller;
 import com.example.userservice.dto.request.UserCreateRequestDto;
 import com.example.userservice.dto.response.UserCreateResponseDto;
 import com.example.userservice.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/check")
+    public String check(HttpServletRequest request) {
+        return String.format("User-Service Success : %s", request.getServerPort());
+    }
 
     @PostMapping("/users")
     public ResponseEntity<Void> createUser(@RequestBody @Valid UserCreateRequestDto request) {
