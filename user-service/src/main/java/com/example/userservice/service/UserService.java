@@ -1,8 +1,8 @@
 package com.example.userservice.service;
 
 import com.example.userservice.domain.User;
-import com.example.userservice.dto.request.UserCreateRequestDto;
-import com.example.userservice.dto.response.UserCreateResponseDto;
+import com.example.userservice.dto.request.UserCreateRequest;
+import com.example.userservice.dto.response.UserCreateResponse;
 import com.example.userservice.exception.UserIdDuplicatedException;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserCreateResponseDto createUser(UserCreateRequestDto request) {
+    public UserCreateResponse createUser(UserCreateRequest request) {
         if (userRepository.existsByUserId(request.getUserId())) {
             throw new UserIdDuplicatedException();
         }
@@ -33,7 +33,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return UserCreateResponseDto.builder()
+        return UserCreateResponse.builder()
                 .savedId(user.getId())
                 .build();
     }
