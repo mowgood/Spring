@@ -2,6 +2,7 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.request.UserCreateRequest;
 import com.example.userservice.dto.response.UserCreateResponse;
+import com.example.userservice.dto.response.UserGetResponse;
 import com.example.userservice.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,5 +36,10 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserGetResponse> getUsers(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getUserByUserId(userId));
     }
 }
