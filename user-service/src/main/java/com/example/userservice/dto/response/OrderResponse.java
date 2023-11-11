@@ -2,7 +2,7 @@ package com.example.userservice.dto.response;
 
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 public class OrderResponse {
@@ -15,7 +15,7 @@ public class OrderResponse {
 
     private int totalPrice;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     private String orderId;
 }
