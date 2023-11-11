@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/user-service")
 @RequiredArgsConstructor
 public class UserController {
 

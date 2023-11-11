@@ -15,7 +15,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order-service")
 @RequiredArgsConstructor
 public class OrderController {
 
