@@ -2,7 +2,7 @@ package com.example.productservice.domain;
 
 import com.example.productservice.enumeration.Category;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,31 +16,27 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Product {
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Column(unique = true)
     private String productId;
 
-    @NotBlank
+    @NotNull
     private String productName;
 
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @NotBlank
+    @NotNull
     private int stock;
 
-    @NotBlank
+    @NotNull
     private int unitPrice;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
 
     @Builder
     public Product(String productId, String productName, Category category, int stock, int unitPrice) {
