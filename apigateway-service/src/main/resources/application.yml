@@ -8,6 +8,11 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+jwt:
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+  access-token-validity-in-seconds: 86400
+  refresh-token-validity-in-seconds: 144000
+
 spring:
   application:
     name: apigateway-service
@@ -34,6 +39,7 @@ spring:
             - Method=POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -41,6 +47,7 @@ spring:
             - Method=GET, POST
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -53,3 +60,4 @@ spring:
             - Path=/order-service/**
           filters:
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
