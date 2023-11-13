@@ -9,12 +9,14 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +37,8 @@ public class JWTProvider {
     public long refreshTokenValidTime;
 
     public static final String jwtType = "Bearer ";
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     @PostConstruct
     protected void init() {
@@ -62,12 +66,24 @@ public class JWTProvider {
 
         Claims claims = Jwts.claims().setSubject(userId);
 
-        return Jwts.builder()
+        String refreshToken = Jwts.builder()
                 .setSubject("refresh")
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
+
+        // redis에 refresh 토큰 저장
+        /*
+        redisTemplate.opsForValue().set(
+                userId,
+                refreshToken,
+                refreshTokenValidTime,
+                TimeUnit.MILLISECONDS
+        );
+        */
+
+        return refreshToken;
     }
 }

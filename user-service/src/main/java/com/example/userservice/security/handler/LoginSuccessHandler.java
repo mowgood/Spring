@@ -29,8 +29,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 Arrays.stream(authentication.getAuthorities().toArray()).toList());
         String refreshToken = jwtProvider.generateRefreshToken(authentication.getName());
 
-        // refresh 토큰 저장
-
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtProvider.jwtType + accessToken);
         response.addCookie(createCookie(refreshToken));
     }
