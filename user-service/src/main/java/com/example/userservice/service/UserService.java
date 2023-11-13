@@ -47,7 +47,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserGetResponse getUserByUserId(String userId) {
-        UserGetMapping user = userRepository.findByUserId(userId);
+        UserGetMapping user = userRepository.findUserByUserId(userId);
 
         if(user == null) {
             throw new UserNotFoundException();
