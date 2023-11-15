@@ -4,11 +4,6 @@ server:
 spring:
   application:
     name: user-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/eshop-user-service-db
-    username: root
-    password: 1234
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,6 +15,19 @@ spring:
     redis:
       host: localhost
       port: 6379
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: user-service
+      profile: ${spring.profiles.active}
 
 eureka:
   instance:
@@ -30,7 +38,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-jwt:
-  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
-  access-token-validity-in-seconds: 86400
-  refresh-token-validity-in-seconds: 144000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

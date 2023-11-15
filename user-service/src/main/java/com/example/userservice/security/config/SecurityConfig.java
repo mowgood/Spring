@@ -5,7 +5,7 @@ import com.example.userservice.security.CustomUserDetailsService;
 import com.example.userservice.security.filter.LoginFilter;
 import com.example.userservice.security.handler.LoginFailHandler;
 import com.example.userservice.security.handler.LoginSuccessHandler;
-import com.example.userservice.security.jwt.JWTProvider;
+import com.example.userservice.security.jwt.JwtProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    private final JWTProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     private final ObjectMapper objectMapper;
 

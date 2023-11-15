@@ -1,6 +1,6 @@
 package com.example.userservice.security.handler;
 
-import com.example.userservice.security.jwt.JWTProvider;
+import com.example.userservice.security.jwt.JwtProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 @Slf4j
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final JWTProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
