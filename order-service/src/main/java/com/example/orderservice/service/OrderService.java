@@ -3,6 +3,7 @@ package com.example.orderservice.service;
 import com.example.orderservice.domain.Order;
 import com.example.orderservice.dto.request.OrderCreateRequest;
 import com.example.orderservice.dto.response.OrderCreateResponse;
+import com.example.orderservice.messagequeue.KafkaProducer;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.repository.mapping.OrderGetMapping;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Transactional
     public OrderCreateResponse createOrder(OrderCreateRequest request) {
@@ -30,6 +32,8 @@ public class OrderService {
                 .build();
 
         orderRepository.save(order);
+
+        kafkaProducer.send("product-stock-topic", order);
 
         return OrderCreateResponse.builder()
                 .savedId(order.getId())

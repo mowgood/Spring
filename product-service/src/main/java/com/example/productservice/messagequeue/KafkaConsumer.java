@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class KafkaConsumer {
     private final ProductRepository productRepository;
 
-    @KafkaListener(topics = "product-qty-topic")
+    @KafkaListener(topics = "product-stock-topic")
+    @Transactional
     public void updateProductStock(String kafkaMessage) {
         log.info("Kafka Message ->" + kafkaMessage);
 
