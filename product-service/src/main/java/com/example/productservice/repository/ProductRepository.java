@@ -9,4 +9,6 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<ProductGetMapping> findAllBy();
+
+    Product findByProductId(String productId);
 }
