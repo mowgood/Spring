@@ -44,4 +44,9 @@ public class OrderService {
     public List<OrderGetMapping> getAllOrder() {
         return orderRepository.findAllBy();
     }
+
+    @Transactional(readOnly = true)
+    public List<OrderGetMapping> getOrdersByUserId(String userId) {
+        return orderRepository.findByUserId(userId);
+    }
 }
