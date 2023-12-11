@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -44,5 +41,10 @@ public class OrderController {
     @GetMapping("/orders")
     public ResponseEntity<List<OrderGetMapping>> getOrderList() {
         return ResponseEntity.ok(orderService.getAllOrder());
+    }
+
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<List<OrderGetMapping>> getOrdersByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 }
