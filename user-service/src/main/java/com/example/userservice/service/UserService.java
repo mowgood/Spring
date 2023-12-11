@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.domain.User;
 import com.example.userservice.dto.request.UserCreateRequest;
 import com.example.userservice.dto.response.OrderResponse;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +24,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
+
+    private final OrderServiceClient orderServiceClient;
 
     @Transactional
     public UserCreateResponse createUser(UserCreateRequest request) {
@@ -53,7 +55,7 @@ public class UserService {
             throw new UserNotFoundException();
         }
 
-        List<OrderResponse> orderList = new ArrayList<>();
+        List<OrderResponse> orderList = orderServiceClient.getOrdersByUserId(userId);
 
         return UserGetResponse.builder()
                 .userId(user.getUserId())
