@@ -11,10 +11,13 @@ import com.example.userservice.exception.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.repository.mapping.UserGetMapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +29,8 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final OrderServiceClient orderServiceClient;
+
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     @Transactional
     public UserCreateResponse createUser(UserCreateRequest request) {
@@ -51,11 +56,13 @@ public class UserService {
     public UserGetResponse getUserByUserId(String userId) {
         UserGetMapping user = userRepository.findUserByUserId(userId);
 
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
-        List<OrderResponse> orderList = orderServiceClient.getOrdersByUserId(userId);
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<OrderResponse> orderList = circuitbreaker.run(() -> orderServiceClient.getOrdersByUserId(userId),
+                throwable -> new ArrayList<>());
 
         return UserGetResponse.builder()
                 .userId(user.getUserId())
