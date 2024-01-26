@@ -1,0 +1,102 @@
+version: '2'
+
+services:
+  user-mysql:
+    image: mysql:8.0
+    container_name: user-mysql
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_DATABASE: user-db
+      MYSQL_ROOT_PASSWORD: 1234
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/mysql/data/user:/var/lib/mysql
+      - ./docker/db/mysql/config/user:/etc/mysql/conf.d
+    networks:
+      - eshop-network
+    
+  order-mysql:
+    image: mysql:8.0
+    container_name: order-mysql
+    ports:
+      - "13307:3306"
+    environment:
+      MYSQL_DATABASE: order-db
+      MYSQL_ROOT_PASSWORD: 1234
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/mysql/data/order:/var/lib/mysql
+      - ./docker/db/mysql/config/order:/etc/mysql/conf.d
+    networks:
+      - eshop-network
+
+  product-mysql:
+    image: mysql:8.0
+    container_name: product-mysql
+    ports:
+      - "13308:3306"
+    environment:
+      MYSQL_DATABASE: product-db
+      MYSQL_ROOT_PASSWORD: 1234
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/mysql/data/product:/var/lib/mysql
+      - ./docker/db/mysql/config/product:/etc/mysql/conf.d
+    networks:
+      - eshop-network
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "15671:15671"
+      - "5671:5671"
+      - "4369:4369"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - eshop-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports: 
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      eshop-network:
+        ipv4_address: 172.19.0.100
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 172.19.0.101
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:19092, EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT, EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    networks:
+      eshop-network:
+        ipv4_address: 172.19.0.101
+
+networks:
+  eshop-network:
+    external: true
