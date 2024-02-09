@@ -11,6 +11,7 @@ import com.example.userservice.exception.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.repository.mapping.UserGetMapping;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -60,9 +62,11 @@ public class UserService {
             throw new UserNotFoundException();
         }
 
+        log.info("Before call order-service");
         CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
         List<OrderResponse> orderList = circuitbreaker.run(() -> orderServiceClient.getOrdersByUserId(userId),
                 throwable -> new ArrayList<>());
+        log.info("After called order-service");
 
         return UserGetResponse.builder()
                 .userId(user.getUserId())
