@@ -2,7 +2,7 @@ package com.example.orderservice.controller;
 
 import com.example.orderservice.dto.request.OrderCreateRequest;
 import com.example.orderservice.dto.response.OrderCreateResponse;
-import com.example.orderservice.repository.mapping.OrderGetMapping;
+import com.example.orderservice.dto.response.OrderListResponse;
 import com.example.orderservice.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,12 +39,12 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderGetMapping>> getOrderList() {
+    public ResponseEntity<List<OrderListResponse>> getOrderList() {
         return ResponseEntity.ok(orderService.getAllOrder());
     }
 
     @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<OrderGetMapping>> getOrdersByUserId(@PathVariable String userId) {
+    public ResponseEntity<List<OrderListResponse>> getOrdersByUserId(@PathVariable String userId) {
         return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 }
