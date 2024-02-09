@@ -1,7 +1,7 @@
 ---
 name: Issue
 about: Issue template
-title: "[\bSERVICE] 제목"
+title: "[서비스] 제목"
 labels: ''
 assignees: ''
 
