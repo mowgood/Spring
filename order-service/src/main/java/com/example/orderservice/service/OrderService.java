@@ -3,6 +3,7 @@ package com.example.orderservice.service;
 import com.example.orderservice.domain.Order;
 import com.example.orderservice.dto.request.OrderCreateRequest;
 import com.example.orderservice.dto.response.OrderCreateResponse;
+import com.example.orderservice.enumeration.OrderStatus;
 import com.example.orderservice.messagequeue.KafkaProducer;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.repository.mapping.OrderGetMapping;
@@ -29,6 +30,7 @@ public class OrderService {
                 .totalPrice(request.getQuantity() * request.getUnitPrice())
                 .userId(request.getUserId())
                 .orderId(UUID.randomUUID().toString())
+                .orderStatus(OrderStatus.PAYMENT_COMPLETED)
                 .build();
 
         orderRepository.save(order);
