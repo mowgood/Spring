@@ -96,6 +96,14 @@ services:
     networks:
       eshop-network:
         ipv4_address: 172.19.0.101
+  
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - eshop-network
 
 networks:
   eshop-network:
