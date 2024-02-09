@@ -4,6 +4,7 @@ import com.example.userservice.dto.request.UserCreateRequest;
 import com.example.userservice.dto.response.UserCreateResponse;
 import com.example.userservice.dto.response.UserGetResponse;
 import com.example.userservice.service.UserService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/check")
+    @Timed(value = "users.check", longTask = true)
     public String check(HttpServletRequest request) {
         return String.format("User-Service Success : %s", request.getServerPort());
     }
