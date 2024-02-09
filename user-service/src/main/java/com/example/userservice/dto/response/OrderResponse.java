@@ -18,4 +18,6 @@ public class OrderResponse {
     private LocalDateTime createdAt;
 
     private String orderId;
+
+    private String orderStatus;
 }
