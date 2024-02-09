@@ -3,6 +3,8 @@ package com.example.orderservice.service;
 import com.example.orderservice.domain.Order;
 import com.example.orderservice.dto.request.OrderCreateRequest;
 import com.example.orderservice.dto.response.OrderCreateResponse;
+import com.example.orderservice.dto.response.OrderListResponse;
+import com.example.orderservice.enumeration.OrderStatus;
 import com.example.orderservice.messagequeue.KafkaProducer;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.repository.mapping.OrderGetMapping;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +32,7 @@ public class OrderService {
                 .totalPrice(request.getQuantity() * request.getUnitPrice())
                 .userId(request.getUserId())
                 .orderId(UUID.randomUUID().toString())
+                .orderStatus(OrderStatus.PAYMENT_COMPLETED)
                 .build();
 
         orderRepository.save(order);
@@ -41,12 +45,38 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrderGetMapping> getAllOrder() {
-        return orderRepository.findAllBy();
+    public List<OrderListResponse> getAllOrder() {
+        List<OrderGetMapping> orders = orderRepository.findAllBy();
+        List<OrderListResponse> orderList = new ArrayList<>(orders.size());
+        orders.forEach(order -> {
+            orderList.add(OrderListResponse.builder()
+                    .productId(order.getProductId())
+                    .quantity(order.getQuantity())
+                    .unitPrice(order.getUnitPrice())
+                    .totalPrice(order.getTotalPrice())
+                    .orderId(order.getOrderId())
+                    .createdAt(order.getCreatedAt())
+                    .orderStatus(order.getOrderStatus().getValue())
+                    .build());
+        });
+        return orderList;
     }
 
     @Transactional(readOnly = true)
-    public List<OrderGetMapping> getOrdersByUserId(String userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderListResponse> getOrdersByUserId(String userId) {
+        List<OrderGetMapping> orders = orderRepository.findByUserId(userId);
+        List<OrderListResponse> orderList = new ArrayList<>(orders.size());
+        orders.forEach(order -> {
+            orderList.add(OrderListResponse.builder()
+                    .productId(order.getProductId())
+                    .quantity(order.getQuantity())
+                    .unitPrice(order.getUnitPrice())
+                    .totalPrice(order.getTotalPrice())
+                    .orderId(order.getOrderId())
+                    .createdAt(order.getCreatedAt())
+                    .orderStatus(order.getOrderStatus().getValue())
+                    .build());
+        });
+        return orderList;
     }
 }

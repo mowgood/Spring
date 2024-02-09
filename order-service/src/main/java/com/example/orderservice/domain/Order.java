@@ -1,5 +1,6 @@
 package com.example.orderservice.domain;
 
+import com.example.orderservice.enumeration.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -38,13 +39,18 @@ public class Order extends BaseEntity {
     @Column(unique = true)
     private String orderId;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
     @Builder
-    public Order(String productId, int quantity, int unitPrice, int totalPrice, String userId, String orderId) {
+    public Order(String productId, int quantity, int unitPrice, int totalPrice, String userId,
+                 String orderId, OrderStatus orderStatus) {
         this.productId = productId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.userId = userId;
         this.orderId = orderId;
+        this.orderStatus = orderStatus;
     }
 }
