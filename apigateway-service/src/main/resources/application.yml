@@ -59,13 +59,20 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/actuator/**
-            - Method=GET, POST
+            - Method=GET
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product-service/**
+          filters:
+            - RewritePath=/product-service/(?<segment>.*), /$\{segment}
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/actuator/**
+            - Method=GET
           filters:
             - RewritePath=/product-service/(?<segment>.*), /$\{segment}
         - id: order-service
@@ -75,6 +82,13 @@ spring:
           filters:
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
             - AuthorizationFilter
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/actuator/**
+            - Method=GET
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
 
 management:
   endpoints:
