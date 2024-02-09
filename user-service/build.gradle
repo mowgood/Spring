@@ -57,6 +57,9 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'io.github.openfeign:feign-micrometer'
 
+    //zipkin
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
