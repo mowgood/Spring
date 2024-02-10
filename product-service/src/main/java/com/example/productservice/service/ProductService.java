@@ -19,4 +19,9 @@ public class ProductService {
         List<ProductGetMapping> productList = productRepository.findAllBy();
         return productList;
     }
+
+    @Transactional(readOnly = true)
+    public int getStock(String productId) {
+        return productRepository.findStockByProductId(productId).getStock();
+    }
 }
