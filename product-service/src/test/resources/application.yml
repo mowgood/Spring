@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: product-service
+  profiles:
+    active: test
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: product-service
+      profile: ${spring.profiles.active}

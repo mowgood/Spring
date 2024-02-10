@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,5 +25,10 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<ProductGetMapping>> getProductList() {
         return ResponseEntity.ok(productService.getAllProduct());
+    }
+
+    @GetMapping("/products/{productId}/stock")
+    public ResponseEntity<Integer> getProductStock(@PathVariable String productId) {
+        return ResponseEntity.ok(productService.getStock(productId));
     }
 }
