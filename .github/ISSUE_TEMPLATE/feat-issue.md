@@ -1,7 +1,7 @@
 ---
-name: Issue
-about: Issue template
-title: "[서비스] 제목"
+name: feat Issue
+about: feat Issue template
+title: 'feat: [서비스] 제목'
 labels: ''
 assignees: ''
 
