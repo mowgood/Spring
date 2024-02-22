@@ -34,10 +34,9 @@ public class KafkaConsumer {
             exception.printStackTrace();
         }
 
-        Product product = productRepository.findByProductId((String) map.get("productId"));
-        if (product == null) {
+        Product product = productRepository.findById(Long.valueOf((String) map.get("productId")))
+                .orElseThrow(() -> new RuntimeException());
 
-        }
         product.updateStock((Integer) map.get("quantity"));
     }
 }

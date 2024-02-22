@@ -26,17 +26,16 @@ class ProductServiceTest {
     void 상품_재고_조회() throws Exception {
         // given
         Product product = Product.builder()
-                .productId("F001")
                 .productName("햄버거")
                 .category(Category.FOOD)
                 .stock(50)
                 .unitPrice(10000)
                 .build();
 
-        productRepository.save(product);
+        Product newProduct = productRepository.save(product);
 
         // when
-        int stock = productService.getStock(product.getProductId());
+        int stock = productService.getStock(newProduct.getId());
 
         // then
         assertEquals(product.getStock(), stock);
