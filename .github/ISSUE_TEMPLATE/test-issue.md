@@ -1,8 +1,8 @@
 ---
-name: Feat Issue
-about: feat Issue template
-title: 'feat: [서비스] 제목'
-labels: feat
+name: Test Issue
+about: test issue template
+title: 'test: [서비스] 제목'
+labels: test
 assignees: ''
 
 ---
