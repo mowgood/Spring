@@ -25,17 +25,13 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public int getStock(String productId) {
-        return productRepository.findStockByProductId(productId).getStock();
+    public int getStock(Long productId) {
+        return productRepository.findStockById(productId).getStock();
     }
 
     @Transactional
     public ProductCreateResponse createProduct(ProductCreateRequest request) {
-        String productId = request.getCategory().toString() + "-" +
-                UUID.randomUUID().toString().replace("-", "");
-
         Product product = Product.builder()
-                .productId(productId)
                 .productName(request.getProductName())
                 .category(request.getCategory())
                 .stock(request.getStock())

@@ -20,10 +20,6 @@ public class Product extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(unique = true)
-    private String productId;
-
-    @NotNull
     private String productName;
 
     @Enumerated(EnumType.STRING)
@@ -36,8 +32,7 @@ public class Product extends BaseEntity {
     private int unitPrice;
 
     @Builder
-    public Product(String productId, String productName, Category category, int stock, int unitPrice) {
-        this.productId = productId;
+    public Product(String productName, Category category, int stock, int unitPrice) {
         this.productName = productName;
         this.category = category;
         this.stock = stock;

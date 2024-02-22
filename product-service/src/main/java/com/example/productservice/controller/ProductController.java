@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{productId}/stock")
-    public ResponseEntity<Integer> getProductStock(@PathVariable String productId) {
+    public ResponseEntity<Integer> getProductStock(@PathVariable Long productId) {
         return ResponseEntity.ok(productService.getStock(productId));
     }
 
