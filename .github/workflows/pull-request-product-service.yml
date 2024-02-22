@@ -1,18 +1,22 @@
-name: pull-request-test
+name: pull-request-product-service
 
 on:
   pull_request:
     branches: 
-      - develop
       - main
+      - develop
 
 jobs:
   test:
-    name: be-pull-request-test
+    name: pull-request-product-service
     runs-on: ubuntu-latest
     environment: test
     permissions:
       contents: read
+    if: contains(github.event.pull_request.head.ref, '/product/')
+    defaults:
+      run:
+        working-directory: ./product-service
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
