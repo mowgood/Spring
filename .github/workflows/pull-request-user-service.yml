@@ -1,0 +1,39 @@
+name: pull-request-user-service
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - develop
+
+jobs:
+  test:
+    name: pull-request-user-service
+    runs-on: ubuntu-latest
+    environment: test
+    permissions:
+      contents: read
+    if: contains(github.head_ref, '/user/')
+    defaults:
+      run:
+        working-directory: ./user-service
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Gradle Caching
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Test with Gradle
+      run: ./gradlew test
