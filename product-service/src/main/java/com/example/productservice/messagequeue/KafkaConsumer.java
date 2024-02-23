@@ -34,7 +34,9 @@ public class KafkaConsumer {
             exception.printStackTrace();
         }
 
-        Product product = productRepository.findById(Long.valueOf((String) map.get("productId")))
+        Integer productId = (Integer) map.get("productId");
+
+        Product product = productRepository.findById(productId.longValue())
                 .orElseThrow(() -> new RuntimeException());
 
         product.updateStock((Integer) map.get("quantity"));
