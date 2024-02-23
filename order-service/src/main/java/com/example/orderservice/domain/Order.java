@@ -21,7 +21,7 @@ public class Order extends BaseEntity {
     private Long id;
 
     @NotNull
-    private String productId;
+    private Long productId;
 
     @NotNull
     private int quantity;
@@ -43,7 +43,7 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
     @Builder
-    public Order(String productId, int quantity, int unitPrice, int totalPrice, String userId,
+    public Order(Long productId, int quantity, int unitPrice, int totalPrice, String userId,
                  String orderId, OrderStatus orderStatus) {
         this.productId = productId;
         this.quantity = quantity;
