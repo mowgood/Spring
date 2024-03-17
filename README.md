@@ -23,11 +23,6 @@
 
 <br>
 
-## 시스템 아키텍처
-<img width="700" alt="image" src="https://github.com/mowgood/eShop/assets/99533453/c7802ed3-1f52-4aa9-90c3-13a316109995">
-
-<br><br>
-
 ## 관련 포스팅
 - [Spring Cloud Discovery와 Spring Cloud Gateway](https://good-and-great.tistory.com/63)  
 - [마이크로서비스 생성과 apigateway 연동](https://good-and-great.tistory.com/69)  
